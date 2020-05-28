@@ -17,7 +17,7 @@ public class PrefixedCommandRegistry<S> extends DynamicCommandRegistry<S> {
     private final List<CommandSpec<S>> sequence;
     private final String prefix;
 
-    protected PrefixedCommandRegistry(List<CommandSpec<S>> sequence, String prefix) {
+    public PrefixedCommandRegistry(List<CommandSpec<S>> sequence, String prefix) {
         super(sequence);
         this.sequence = sequence;
         this.prefix = prefix;

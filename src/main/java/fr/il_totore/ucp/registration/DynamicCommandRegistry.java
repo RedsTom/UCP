@@ -9,7 +9,7 @@ public abstract class DynamicCommandRegistry<S> implements CommandRegistry<S> {
 
     private final List<CommandSpec<S>> sequence;
 
-    protected DynamicCommandRegistry(List<CommandSpec<S>> sequence) {
+    public DynamicCommandRegistry(List<CommandSpec<S>> sequence) {
         this.sequence = sequence;
     }
 
