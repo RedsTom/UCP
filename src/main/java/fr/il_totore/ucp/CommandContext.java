@@ -11,9 +11,9 @@ import java.util.stream.Stream;
 public class CommandContext<S> {
 
     private final CommandSpec<S> spec;
-    private final Multimap<String, Object> args;
+    private final Multimap<String, S> args;
 
-    public CommandContext(CommandSpec<S> spec, Multimap<String, Object> args) {
+    public CommandContext(CommandSpec<S> spec, Multimap<String, S> args) {
         this.spec = spec;
         this.args = args;
     }
@@ -27,6 +27,7 @@ public class CommandContext<S> {
     }
 
     public <T> Optional<T> getLast(String key) {
+
         final Optional<Set<T>> iterableOpt = Optional.ofNullable(get(key));
         if (!(iterableOpt.isPresent())) return Optional.empty();
         T lastElement = null;
@@ -38,8 +39,8 @@ public class CommandContext<S> {
         return Optional.ofNullable(lastElement);
     }
 
-    public <T> Stream<T> getSlice(String key, int start, int end) {
-        return (Stream<T>) get(key).stream().skip(start).limit(end - start + 1);
+    public Stream<S> getSlice(String key, int start, int end) {
+        return (Stream<S>) get(key).stream().skip(start).limit(end - start + 1);
     }
 
     public <T> Optional<T> getAt(String key, int index) {
@@ -47,7 +48,7 @@ public class CommandContext<S> {
         return Optional.of(elements.get(index));
     }
 
-    public void putArgument(String key, Object value) {
+    public void putArgument(String key, S value) {
         args.put(key, value);
     }
 

@@ -27,4 +27,9 @@ public abstract class DynamicCommandRegistry<S> implements CommandRegistry<S> {
     public void filter(Predicate<? super CommandSpec<S>> predicate) {
         sequence.removeIf(predicate);
     }
+
+    @Override
+    public List<CommandSpec<S>> getRegisteredCommands() {
+        return sequence;
+    }
 }
