@@ -4,6 +4,9 @@ import fr.il_totore.ucp.parsing.CommandElement;
 import fr.il_totore.ucp.parsing.InputTokenizer;
 import fr.il_totore.ucp.parsing.SimpleSplitTokenizer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -20,6 +23,8 @@ public interface CommandSpec<S> {
 
     InputTokenizer getTokenizer();
 
+    List<String> getAliases();
+
     class ImplicitSpec<S> implements CommandSpec<S> {
 
         private final String name;
@@ -28,6 +33,7 @@ public interface CommandSpec<S> {
         private BiFunction<S, CommandContext<S>, GeneralResult> executor;
         private Optional<String> description = Optional.empty();
         private Function<S, Boolean> permission = (s) -> true;
+        private final List<String> aliases = new ArrayList<>();
         private InputTokenizer tokenizer = new SimpleSplitTokenizer(" ");
 
         public ImplicitSpec(String name) {
@@ -38,6 +44,12 @@ public interface CommandSpec<S> {
             this.element = Optional.of(commandElement);
             return this;
         }
+
+        public ImplicitSpec<S> withAliases(String... aliases) {
+            this.aliases.addAll(Arrays.asList(aliases));
+            return this;
+        }
+
 
         public ImplicitSpec<S> executing(BiFunction<S, CommandContext<S>, GeneralResult> commandExecutor) {
             this.executor = commandExecutor;
@@ -82,6 +94,11 @@ public interface CommandSpec<S> {
         @Override
         public InputTokenizer getTokenizer() {
             return tokenizer;
+        }
+
+        @Override
+        public List<String> getAliases() {
+            return aliases;
         }
     }
 
